@@ -8,10 +8,6 @@ class RawAnswer(BaseModel):
     answer: Optional[int] = None
 
 
-class ChosenPages(BaseModel):
-    nums: List[int]
-
-
 class AgentAnswer(BaseModel):
     question: str = Field(description="Вопрос пользователя")
     reasoning: str = Field(

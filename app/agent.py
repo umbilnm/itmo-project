@@ -19,13 +19,13 @@ class ITMOSearchAgent:
         Ответ на вопрос о ИТМО
 
         """
-        agent_answer = agent_plan(query)
+        agent_answer = await agent_plan(query)
         self.choose_answer = agent_answer.choose_answer
         if agent_answer.confidence_level > 8:
-            return raw_answer(query)
+            return await raw_answer(query)
         else:
             context = await self.get_context_from_tools(agent_answer.question)
-            return answer_with_context(query, context)
+            return await answer_with_context(query, context)
 
     async def get_context_from_tools(self, query: str):
         """
@@ -34,10 +34,3 @@ class ITMOSearchAgent:
 
         context = await self.tavily_agent.fetch_tavily(query)
         return context
-
-    async def _tavily_search(self, query: str) -> list[str]:
-        """
-        Поиск в ТАВИЛИ
-        """
-        results = await self.tavily_agent.search(query)
-        return results
