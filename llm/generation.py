@@ -12,9 +12,7 @@ load_dotenv()
 
 prompts = safe_load(open("llm/prompts.yaml"))
 client = AsyncOpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    base_url=os.getenv("OPENAI_BASE_URL"),
-    temperature=0.0,
+    api_key=os.getenv("OPENAI_API_KEY"), base_url=os.getenv("OPENAI_BASE_URL")
 )
 
 
@@ -25,6 +23,7 @@ async def raw_answer(query: str) -> RawAnswer:
         messages=[
             {"role": "system", "content": prompts["raw_answer"].format(question=query)},
         ],
+        temperature=0.0,
     )
     result = response.choices[0].message.parsed
     log_llm_response("raw_answer", query, result.model_dump())
@@ -41,6 +40,7 @@ async def agent_plan(question: str) -> AgentAnswer:
                 "content": prompts["agent_prompt"].format(question=question),
             }
         ],
+        temperature=0.0,
     )
     result = response.choices[0].message.parsed
     log_llm_response("agent_plan", question, result.model_dump())
@@ -59,6 +59,7 @@ async def answer_with_context(query: str, context: str) -> str:
                 ),
             },
         ],
+        temperature=0.0,
     )
     result = response.choices[0].message.parsed
     log_llm_response("answer_with_context", query, result.model_dump())
