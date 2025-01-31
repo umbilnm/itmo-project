@@ -16,7 +16,7 @@ class AgentAnswer(BaseModel):
     choose_answer: bool = Field(
         description="Если вопрос содержит пронумерованные варианты ответов, верни True, иначе False"
     )
-    confidence_level: bool = Field(
+    confidence_level: int = Field(
         description="Напиши уровень уверенности в том, что можешь ответить на вопрос"
     )
 

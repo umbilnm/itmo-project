@@ -26,6 +26,7 @@ class TavilyAgent:
                     "query": query,
                     "num_results": 3,
                     "api_key": self.api_key,
+                    "include_raw_content": True,
                 },
             ) as response:
                 result = await response.json()
@@ -37,7 +38,7 @@ class TavilyAgent:
         """
         string = ""
         for result in results:
-            string += result["url"] + "\n" + result["content"] + "\n"
+            string += result["url"] + "\n" + result["raw_content"] + "\n"
         print(string)
         return string
 
