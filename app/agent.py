@@ -20,20 +20,19 @@ class ITMOSearchAgent:
 
         """
         agent_answer = agent_plan(query)
-        if agent_answer.can_answer:
+        self.choose_answer = agent_answer.choose_answer
+        if agent_answer.confidence_level > 8:
             return raw_answer(query)
         else:
-            context = await self.get_context_from_tools(
-                agent_answer.question, agent_answer.tools
-            )
+            context = await self.get_context_from_tools(agent_answer.question)
             return answer_with_context(query, context)
 
-    async def get_context_from_tools(self, query: str, tools: List[int]):
+    async def get_context_from_tools(self, query: str):
         """
         Получение контекста из инструментов
         """
-        if 1 in tools:
-            context = await self.tavily_agent.fetch_tavily(query)
+
+        context = await self.tavily_agent.fetch_tavily(query)
         return context
 
     async def _tavily_search(self, query: str) -> list[str]:

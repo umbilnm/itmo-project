@@ -1,6 +1,6 @@
-from typing import List, Optional
+from typing import List, Literal, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class RawAnswer(BaseModel):
@@ -13,10 +13,16 @@ class ChosenPages(BaseModel):
 
 
 class AgentAnswer(BaseModel):
-    question: str
-    reasoning: str
-    can_answer: bool
-    tools: Optional[List[int]] = None
+    question: str = Field(description="Вопрос пользователя")
+    reasoning: str = Field(
+        description="Пояснение, почему могу или не могу ответить на вопрос"
+    )
+    choose_answer: bool = Field(
+        description="Если вопрос содержит пронумерованные варианты ответов, верни True, иначе False"
+    )
+    confidence_level: bool = Field(
+        description="Напиши уровень уверенности в том, что можешь ответить на вопрос"
+    )
 
 
 class AnswerWithContext(BaseModel):

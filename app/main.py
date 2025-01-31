@@ -23,7 +23,7 @@ async def handle_request(request: RequestModel):
     else:
         return ResponseModel(
             id=request.id,
-            answer=answer.answer,
+            answer=answer.answer if agent.choose_answer else None,
             reasoning=answer.reasoning,
             sources=answer.sources,
         )

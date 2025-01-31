@@ -25,7 +25,6 @@ class TavilyAgent:
                 json={
                     "query": query,
                     "num_results": 3,
-                    "include_raw_content": True,
                     "api_key": self.api_key,
                 },
             ) as response:
