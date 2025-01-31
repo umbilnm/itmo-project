@@ -12,7 +12,9 @@ load_dotenv()
 
 prompts = safe_load(open("llm/prompts.yaml"))
 client = AsyncOpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"), base_url=os.getenv("OPENAI_BASE_URL")
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_BASE_URL"),
+    temperature=0.0,
 )
 
 
