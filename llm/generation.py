@@ -9,7 +9,7 @@ from app.utils import log_llm_response
 from .models import AgentAnswer, AnswerWithContext, RawAnswer
 
 load_dotenv()
-
+MODEL = os.getenv("OPENAI_MODEL")
 prompts = safe_load(open("llm/prompts.yaml"))
 client = AsyncOpenAI(
     api_key=os.getenv("OPENAI_API_KEY"), base_url=os.getenv("OPENAI_BASE_URL")
@@ -18,7 +18,7 @@ client = AsyncOpenAI(
 
 async def raw_answer(query: str) -> RawAnswer:
     response = await client.beta.chat.completions.parse(
-        model=os.getenv("OPENAI_MODEL"),
+        model=MODEL,
         response_format=RawAnswer,
         messages=[
             {"role": "system", "content": prompts["raw_answer"].format(question=query)},
@@ -32,7 +32,7 @@ async def raw_answer(query: str) -> RawAnswer:
 
 async def agent_plan(question: str) -> AgentAnswer:
     response = await client.beta.chat.completions.parse(
-        model=os.getenv("OPENAI_MODEL"),
+        model=MODEL,
         response_format=AgentAnswer,
         messages=[
             {
@@ -49,7 +49,7 @@ async def agent_plan(question: str) -> AgentAnswer:
 
 async def answer_with_context(query: str, context: str) -> str:
     response = await client.beta.chat.completions.parse(
-        model=os.getenv("OPENAI_MODEL"),
+        model=MODEL,
         response_format=AnswerWithContext,
         messages=[
             {

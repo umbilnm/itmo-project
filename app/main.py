@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -23,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 agent = ITMOSearchAgent()
+MODEL = os.getenv("OPENAI_MODEL")
 
 
 @app.post("/api/request", response_model=ResponseModel)
@@ -33,9 +35,7 @@ async def handle_request(request: RequestModel):
     try:
         logger.info(f"Processing query: {request.query}")
         answer = await agent.get_answer(query)
-        reasoning = (
-            "Ответ бы сгенерирован моделью gpt-4o-mini" + "\n" + answer.reasoning
-        )
+        reasoning = "Ответ был сгенерирован моделью " + MODEL + "\n" + answer.reasoning
 
         if isinstance(answer, RawAnswer):
 
@@ -43,7 +43,7 @@ async def handle_request(request: RequestModel):
                 id=request.id,
                 answer=answer.answer,
                 reasoning=reasoning,
-                sources=["Знания gpt-4o-mini"],
+                sources=["Знания " + MODEL],
             )
         else:
             response = ResponseModel(
