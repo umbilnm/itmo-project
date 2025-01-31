@@ -18,7 +18,7 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:umbilnm/itmo-project.git
    cd itmo-project
    ```
 
